@@ -19,6 +19,10 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TagFetcherDomain\TagFetcherDomain.csproj" />
+    <ProjectReference Include="..\TagFetcherInfrastructure\TagFetcherInfrastructure.csproj" />
+  </ItemGroup>
+  <ItemGroup>
     <None Update="host.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
