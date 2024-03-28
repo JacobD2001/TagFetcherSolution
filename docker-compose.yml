@@ -1,0 +1,10 @@
+version: '3.4'
+
+services:
+  tagfetcherapplication:
+    image: ${DOCKER_REGISTRY-}tagfetcherapplication
+    build:
+      context: .
+      dockerfile: TagFetcherApplication/Dockerfile
+    ports:
+      - "7071:80"

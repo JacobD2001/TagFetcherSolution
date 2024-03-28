@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TagFetcherInfrastructure", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TagFetcherDomain", "TagFetcherDomain\TagFetcherDomain.csproj", "{EA91EC77-2FB4-4F57-B9CB-6CB95C42EF0D}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{EF3D232F-1D5B-452D-9CC0-20D1272CF11A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{EA91EC77-2FB4-4F57-B9CB-6CB95C42EF0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA91EC77-2FB4-4F57-B9CB-6CB95C42EF0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA91EC77-2FB4-4F57-B9CB-6CB95C42EF0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF3D232F-1D5B-452D-9CC0-20D1272CF11A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF3D232F-1D5B-452D-9CC0-20D1272CF11A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF3D232F-1D5B-452D-9CC0-20D1272CF11A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF3D232F-1D5B-452D-9CC0-20D1272CF11A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
