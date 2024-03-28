@@ -1,0 +1,14 @@
+{
+  "profiles": {
+    "TagFetcherApplication": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7031"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "httpPort": 33352,
+      "useSSL": false
+    }
+  }
+}
