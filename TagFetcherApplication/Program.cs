@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using TagFetcherInfrastructure.data;
+using TagFetcherInfrastructure.services;
 
 var host = new HostBuilder()
     .ConfigureFunctionsWebApplication()
@@ -15,6 +16,9 @@ var host = new HostBuilder()
         var dbPassword = Environment.GetEnvironmentVariable("DB_SA_PASSWORD");
         var connectionString = $"Server={dbHost};Database={dbName};User Id=sa;Password={dbPassword};";
         services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
+
+        services.AddScoped<StackOverflowService>();
+        services.AddHttpClient();
     })
     .Build();
 

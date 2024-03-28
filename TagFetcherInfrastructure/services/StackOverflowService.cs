@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using TagFetcherDomain.models;
 using TagFetcherInfrastructure.data;
 
+//TO DO : To test (check code below and read about api response format now throws an error)
+//TO DO : Exception handling and return http codes - maybe in model validaiton
 namespace TagFetcherInfrastructure.services
 {
     public class StackOverflowService
@@ -19,7 +21,7 @@ namespace TagFetcherInfrastructure.services
             _httpClient = httpClient;
         }
 
-        // Get tags from StackOverflow API
+        // Get tags from StackOverflow API 
         public async Task<List<Tag>> FetchTagsAsync()
         {
             var tags = new List<Tag>();
