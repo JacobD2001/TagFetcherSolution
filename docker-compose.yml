@@ -1,10 +1,26 @@
 version: '3.4'
 
 services:
+  tagfetcherdb:
+     container_name: tagfetcherdb
+     image: mcr.microsoft.com/mssql/server:2022-latest
+     ports:
+        - "8002:1433"
+     environment:
+        - ACCEPT_EULA=Y
+        - SA_PASSWORD="Password123"
+
   tagfetcherapplication:
+    container_name: tagfetcherapplication
     image: ${DOCKER_REGISTRY-}tagfetcherapplication
     build:
       context: .
       dockerfile: TagFetcherApplication/Dockerfile
     ports:
       - "7071:80"
+    depends_on:
+      - tagfetcherdb
+    environment:
+      - DB_HOST=tagfetcherdb
+      - DB_NAME=TagFetcherDb
+      - DB_SA_PASSWORD=Password123
