@@ -5,7 +5,7 @@ namespace TagFetcherInfrastructure.data
 {
     public class AppDbContext : DbContext
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { } //todo: add try catch to constructor
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { } 
         public DbSet<Tag> Tags { get; set; }
     }
 }

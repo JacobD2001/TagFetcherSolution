@@ -11,7 +11,7 @@ services:
         - "8002:1433"
      environment:
         - ACCEPT_EULA=Y
-        - SA_PASSWORD="BardzoTrudneHaslo123!@#"
+        - SA_PASSWORD=BardzoTrudneHaslo123!@#
      networks:
         - tagfetchernetwork
 

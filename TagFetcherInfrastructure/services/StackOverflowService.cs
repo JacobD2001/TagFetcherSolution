@@ -14,6 +14,7 @@ using TagFetcherInfrastructure.data;
 using TagFetcherInfrastructure.responseModels;
 
 //TO DO : Exception handling and return http codes - maybe in model validaiton or in azure func
+//TO DO : Take care of efficieny - foreach has to save 1000 tags 
 // https://www.youtube.com/watch?v=gMwAhKddHYQ - handle excpetions
 namespace TagFetcherInfrastructure.services
 {
@@ -50,16 +51,16 @@ namespace TagFetcherInfrastructure.services
         {
             foreach (var tag in tags)
             {
-                //var existingTag = await dbContext.Tags.FirstOrDefaultAsync(t => t.Name == tag.Name);
-                //if (existingTag == null)
-                //{
+                var existingTag = await dbContext.Tags.FirstOrDefaultAsync(t => t.Name == tag.Name);
+                if (existingTag == null)
+                {
                     await dbContext.Tags.AddAsync(tag);
-                //}
-                //else
-                //{
-                  //  existingTag.Count = tag.Count;
-                    //dbContext.Tags.Update(existingTag);
-                //}
+                }
+                else
+                {
+                    existingTag.Count = tag.Count;
+                    dbContext.Tags.Update(existingTag);
+                }
             }
             await dbContext.SaveChangesAsync();
         }
