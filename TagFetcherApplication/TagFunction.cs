@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
@@ -28,11 +29,21 @@ namespace TagFetcherApplication
         [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
         ILogger log)
         {
-            var tags = await _stackOverflowService.FetchTagsAsync();
-            await _stackOverflowService.SaveTagsAsync(tags, _dbContext);
-            return new OkObjectResult($"{tags.Count}Tags saved successfully");
-        }
+            try
+            {
+                var tags = await _stackOverflowService.FetchTagsAsync();
+                //log.LogInformation($"{tags.Count} tags fetched successfully.");
 
+                //save tags
+                await _stackOverflowService.SaveTagsAsync(tags, _dbContext);
+                return new OkResult();
+            }
+            catch (Exception ex)
+            {
+                log.LogError($"Unexpected error occurred when fetching tags {ex.Message}");
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+        }
 
     }
 }

@@ -1,5 +1,8 @@
 version: '3.4'
 
+networks:
+  tagfetchernetwork:
+
 services:
   tagfetcherdb:
      container_name: tagfetcherdb
@@ -8,7 +11,9 @@ services:
         - "8002:1433"
      environment:
         - ACCEPT_EULA=Y
-        - SA_PASSWORD="Password123"
+        - SA_PASSWORD="BardzoTrudneHaslo123!@#"
+     networks:
+        - tagfetchernetwork
 
   tagfetcherapplication:
     container_name: tagfetcherapplication
@@ -23,4 +28,6 @@ services:
     environment:
       - DB_HOST=tagfetcherdb
       - DB_NAME=TagFetcherDb
-      - DB_SA_PASSWORD=Password123
+      - DB_SA_PASSWORD=BardzoTrudneHaslo123!@#
+    networks:
+      - tagfetchernetwork
