@@ -31,19 +31,20 @@ namespace TagFetcherApplication
         {
             try
             {
-                log.LogInformation("Fetching tags from StackOverflow API...");
+                // TO DO : Loggs cause error for some reason 
+                //log.LogInformation("Fetching tags from StackOverflow API...");
                 var tags = await _stackOverflowService.FetchTagsAsync();
 
-                log.LogInformation($"{tags.Count} tags fetched successfully.");
+               // log.LogInformation($"{tags.Count} tags fetched successfully.");
 
                 await _stackOverflowService.SaveTagsAsync(tags, _dbContext);
-                log.LogInformation($"{tags.Count} tags saved successfully.");
+               // log.LogInformation($"{tags.Count} tags saved successfully.");
 
                 return new OkResult();
             }
             catch (Exception ex)
             {
-                log.LogError($"Unexpected error occurred when fetching tags {ex.Message}");
+               // log.LogError($"Unexpected error occurred when fetching tags {ex.Message}");
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
