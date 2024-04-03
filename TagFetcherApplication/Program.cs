@@ -6,9 +6,11 @@ using TagFetcherInfrastructure.data;
 using TagFetcherInfrastructure.services;
 using TagFetcherInfrastructure.interfaces;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Azure.Functions.Worker.Extensions.OpenApi.Extensions;
 
 var host = new HostBuilder()
     .ConfigureFunctionsWebApplication()
+    .ConfigureOpenApi()
     .ConfigureServices((context, services) =>
     {
         services.AddApplicationInsightsTelemetryWorkerService();
