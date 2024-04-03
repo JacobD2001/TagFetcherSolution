@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TagFetcherDomain", "TagFetc
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{EF3D232F-1D5B-452D-9CC0-20D1272CF11A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServicesUnitTests", "..\ServicesUnitTests\ServicesUnitTests.csproj", "{1C998FDC-3A04-4FC2-9A7F-559FBE2F37ED}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TagFetcherTests", "..\ServicesUnitTests\TagFetcherTests.csproj", "{1C998FDC-3A04-4FC2-9A7F-559FBE2F37ED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
