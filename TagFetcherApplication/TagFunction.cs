@@ -40,6 +40,8 @@ namespace TagFetcherApplication
                 await _stackOverflowService.SaveTagsAsync(tags, _dbContext);
                // log.LogInformation($"{tags.Count} tags saved successfully.");
 
+                await _stackOverflowService.CalculateShareAsync(_dbContext);
+
                 return new OkResult();
             }
             catch (Exception ex)

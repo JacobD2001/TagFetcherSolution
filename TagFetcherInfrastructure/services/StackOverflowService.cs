@@ -18,7 +18,7 @@ namespace TagFetcherInfrastructure.services
 {
     public class StackOverflowService
     {
-
+      
         // Get tags from StackOverflow API 
         public async Task<List<Tag>> FetchTagsAsync()
         {
@@ -44,6 +44,7 @@ namespace TagFetcherInfrastructure.services
             return tags;
         }
 
+        // Save tags to database
         public async Task SaveTagsAsync(List<Tag> tags, AppDbContext dbContext)
         {
             var tagNames = tags.Select(t => t.Name);
@@ -64,6 +65,19 @@ namespace TagFetcherInfrastructure.services
             await dbContext.SaveChangesAsync();
         }
 
+        // Calculate share for each tag
+        public async Task CalculateShareAsync(AppDbContext dbContext)
+        {
+            var totalTags = await dbContext.Tags.SumAsync(t => t.Count);
+            var tags = await dbContext.Tags.ToListAsync();
+
+            foreach (var tag in tags)
+            {
+                tag.Share = Math.Round((double)tag.Count / totalTags * 100, 2);
+            }
+
+            await dbContext.SaveChangesAsync();
+        }
 
     }
 }
