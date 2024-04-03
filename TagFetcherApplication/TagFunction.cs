@@ -44,7 +44,7 @@ namespace TagFetcherApplication
 
                 return new OkResult();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                // log.LogError($"Unexpected error occurred when fetching tags {ex.Message}");
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);

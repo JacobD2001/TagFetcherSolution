@@ -4,6 +4,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using TagFetcherInfrastructure.data;
 using TagFetcherInfrastructure.services;
+using TagFetcherInfrastructure.interfaces;
 
 var host = new HostBuilder()
     .ConfigureFunctionsWebApplication()
@@ -19,7 +20,7 @@ var host = new HostBuilder()
         var connectionString = $"Server={dbHost};Database={dbName};User Id=sa;Password={dbPassword};TrustServerCertificate=True;";
         services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
         services.AddScoped<StackOverflowService>();
-        services.AddScoped<TagService>();
+        services.AddScoped<ITagService, TagService>();
         services.AddHttpClient();
     })
     .Build();
