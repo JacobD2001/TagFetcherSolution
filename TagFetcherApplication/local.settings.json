@@ -1,0 +1,10 @@
+﻿{
+  "connectionstrings": {
+    "DatabaseConnectionString": "Server=tagfetcherdb;Database=TagFetcherDb;User Id=sa;Password=BardzoTrudneHaslo123!@#;TrustServerCertificate=True;"
+  },
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated"
+  }
+}
