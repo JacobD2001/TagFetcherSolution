@@ -14,7 +14,6 @@ using TagFetcherInfrastructure.data;
 using TagFetcherInfrastructure.responseModels;
 
 //TO DO : Exception handling and return http codes - maybe in model validaiton or in azure func
-// https://www.youtube.com/watch?v=gMwAhKddHYQ - handle excpetions
 namespace TagFetcherInfrastructure.services
 {
     public class StackOverflowService
