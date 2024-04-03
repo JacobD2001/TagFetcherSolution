@@ -4,6 +4,7 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,19 +30,29 @@ namespace TagFetcherApplication
             {
                 var queryParameters = new TagsQueryParameters
                 {
-                    PageNumber = int.Parse(req.Query["pageNumber"]),
-                    PageSize = int.Parse(req.Query["pageSize"]),
+                    PageSize = string.IsNullOrEmpty(req.Query["pageSize"]) ? 10 : int.Parse(req.Query["pageSize"]),
+                    PageNumber = string.IsNullOrEmpty(req.Query["pageNumber"]) ? 1 : int.Parse(req.Query["pageNumber"]),
                     SortBy = req.Query["sortBy"],
                     SortOrder = req.Query["sortOrder"]
                 };
 
-                var tags = await _tagService.GetTagsAsync(queryParameters);
 
+                var validationResults = new List<ValidationResult>();
+                var validationContext = new ValidationContext(queryParameters, serviceProvider: null, items: null);
+                bool isValid = Validator.TryValidateObject(queryParameters, validationContext, validationResults, true);
+
+                if (!isValid)
+                {
+                    return new BadRequestObjectResult(validationResults.Select(x => x.ErrorMessage));
+                }
+
+                var tags = await _tagService.GetTagsAsync(queryParameters);
                 return new OkObjectResult(tags);
+
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                throw new Exception($"Unexpected error occurred when fetching tags {ex.Message}");
             }
 
         }
