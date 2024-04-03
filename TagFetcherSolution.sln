@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34723.18
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TagFetcherApplication", "TagFetcherApplication\TagFetcherApplication.csproj", "{6BE521DB-F197-4CA4-96FB-32C1CA495860}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TagFetcherApplication", "TagFetcherApplication\TagFetcherApplication.csproj", "{6BE521DB-F197-4CA4-96FB-32C1CA495860}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TagFetcherInfrastructure", "TagFetcherInfrastructure\TagFetcherInfrastructure.csproj", "{87258175-E858-48B2-8657-F92562933601}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TagFetcherInfrastructure", "TagFetcherInfrastructure\TagFetcherInfrastructure.csproj", "{87258175-E858-48B2-8657-F92562933601}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TagFetcherDomain", "TagFetcherDomain\TagFetcherDomain.csproj", "{EA91EC77-2FB4-4F57-B9CB-6CB95C42EF0D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TagFetcherDomain", "TagFetcherDomain\TagFetcherDomain.csproj", "{EA91EC77-2FB4-4F57-B9CB-6CB95C42EF0D}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{EF3D232F-1D5B-452D-9CC0-20D1272CF11A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServicesUnitTests", "..\ServicesUnitTests\ServicesUnitTests.csproj", "{1C998FDC-3A04-4FC2-9A7F-559FBE2F37ED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{EF3D232F-1D5B-452D-9CC0-20D1272CF11A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF3D232F-1D5B-452D-9CC0-20D1272CF11A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF3D232F-1D5B-452D-9CC0-20D1272CF11A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C998FDC-3A04-4FC2-9A7F-559FBE2F37ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C998FDC-3A04-4FC2-9A7F-559FBE2F37ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C998FDC-3A04-4FC2-9A7F-559FBE2F37ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C998FDC-3A04-4FC2-9A7F-559FBE2F37ED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
