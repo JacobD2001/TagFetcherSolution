@@ -1,14 +1,18 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Microsoft.Identity.Client;
+using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using TagFetcherInfrastructure.dtoModels;
 using TagFetcherInfrastructure.interfaces;
 using TagFetcherInfrastructure.queryParamsModels;
 
@@ -26,6 +30,14 @@ namespace TagFetcherApplication
         }
 
         [Function("GetAndSortTags")]
+        [OpenApiOperation(operationId: "getAndSortTags", tags: new[] { "tag" }, Summary = "Get and sort tags", Description = "This function retrieves tags and sorts them based on query parameters. If no parameters are specified the default sorting takes place.")]
+        [OpenApiParameter(name: "pageSize", In = ParameterLocation.Query, Required = false, Type = typeof(int), Description = "Number of tags per page. Accepts values within range 1-100. Default value is 10.")]
+        [OpenApiParameter(name: "pageNumber", In = ParameterLocation.Query, Required = false, Type = typeof(int), Description = "Page number. The value must be an integer greater than 0. Default value is 1.")]
+        [OpenApiParameter(name: "sortBy", In = ParameterLocation.Query, Required = false, Type = typeof(string), Description = "Sort by field. Accepts the following values: 'name', 'share', or an empty value ''. Default value is 'name'.")]
+        [OpenApiParameter(name: "sortOrder", In = ParameterLocation.Query, Required = false, Type = typeof(string), Description = "Sort order: asc or desc. Asc - for ascending order. Descending order applies by default or with any other value than 'asc' specified.")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(List<TagDto>), Description = "The OK response containing sorted tags.")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.BadRequest, contentType: "application/json", bodyType: typeof(string), Description = "Bad request when query parameters are invalid.")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.InternalServerError, contentType: "application/json", bodyType: typeof(string), Description = "Unexpected error occurred")]
         public async Task<IActionResult> Run(
         [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
         ILogger log)

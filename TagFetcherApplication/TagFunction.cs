@@ -31,9 +31,9 @@ namespace TagFetcherApplication
         }
 
         [Function("FetchAndSaveTags")]
-        [OpenApiOperation(operationId: "fetchAndSaveTags", tags: new[] { "tag" }, Summary = "Fetch and save tags", Description = "This function fetches tags from StackOverflow API and saves them into the database.")]
+        [OpenApiOperation(operationId: "fetchAndSaveTags", tags: new[] { "tag" }, Summary = "Fetch and save tags", Description = "This function forces re-fetching tags from StackOverflow API and saves them into the database.")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(void), Description = "The OK response indicating that tags were successfully fetched and saved.")]
-        //[OpenApiResponseWithBody(statusCode: HttpStatusCode.InternalServerError, contentType: "application/json", bodyType: typeof(string), Description = "Unexpected error occurred")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.InternalServerError, contentType: "application/json", bodyType: typeof(string), Description = "Unexpected error occurred")]
         public async Task<IActionResult> Run(
         [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
         ILogger log)
@@ -43,7 +43,7 @@ namespace TagFetcherApplication
                 var existingTags = await _tagService.GetAllTagsFromDbAsync();
                 if (existingTags != null && existingTags.Any())
                 {
-                    _tagService.DeleteAllTagsAsync();
+                    await _tagService.DeleteAllTagsAsync();
                 }
                 // TO DO : Loggs cause error for some reason 
                 // log.LogInformation("Fetching tags from StackOverflow API...");
