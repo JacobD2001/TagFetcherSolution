@@ -19,6 +19,7 @@ var host = new HostBuilder()
         var connectionString = $"Server={dbHost};Database={dbName};User Id=sa;Password={dbPassword};TrustServerCertificate=True;";
         services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
         services.AddScoped<StackOverflowService>();
+        services.AddScoped<TagService>();
         services.AddHttpClient();
     })
     .Build();
