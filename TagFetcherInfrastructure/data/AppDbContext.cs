@@ -6,6 +6,6 @@ namespace TagFetcherInfrastructure.data
     public class AppDbContext : DbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { } 
-        public virtual DbSet<Tag> Tags { get; set; }
+        public DbSet<Tag> Tags { get; set; }
     }
 }
