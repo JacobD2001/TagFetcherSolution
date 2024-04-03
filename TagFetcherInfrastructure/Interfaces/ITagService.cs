@@ -13,5 +13,6 @@ namespace TagFetcherInfrastructure.interfaces
     {
         Task<List<TagDto>> GetTagsAsync(TagsQueryParameters queryParameters);
         Task<List<Tag>> GetAllTagsFromDbAsync();
+        Task DeleteAllTagsAsync();
     }
 }

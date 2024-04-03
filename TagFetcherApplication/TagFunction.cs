@@ -17,10 +17,12 @@ namespace TagFetcherApplication
     internal class TagFunction
     {
         private readonly IStackOverflowService _stackOverflowService;
+        private readonly ITagService _tagService;
 
-        public TagFunction(IStackOverflowService stackOverflowService)
+        public TagFunction(IStackOverflowService stackOverflowService, ITagService tagService)
         {
             _stackOverflowService = stackOverflowService;
+            _tagService = tagService;
         }
 
         [Function("FetchAndSaveTags")]
@@ -30,6 +32,11 @@ namespace TagFetcherApplication
         {
             try
             {
+                var existingTags = await _tagService.GetAllTagsFromDbAsync();
+                if (existingTags != null && existingTags.Any())
+                {
+                    _tagService.DeleteAllTagsAsync();
+                }
                 // TO DO : Loggs cause error for some reason 
                 //log.LogInformation("Fetching tags from StackOverflow API...");
                 var tags = await _stackOverflowService.FetchTagsAsync();

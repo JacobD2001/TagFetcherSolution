@@ -21,6 +21,13 @@ namespace TagFetcherInfrastructure.services
             _context = context;
         }
 
+        public async Task DeleteAllTagsAsync()
+        {
+            var allTags = GetAllTagsFromDbAsync();
+            _context.Tags.RemoveRange(allTags.Result);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<List<Tag>> GetAllTagsFromDbAsync()
         {
             return await _context.Tags.ToListAsync();
