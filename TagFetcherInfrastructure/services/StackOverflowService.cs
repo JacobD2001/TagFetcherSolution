@@ -11,14 +11,20 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using TagFetcherDomain.models;
 using TagFetcherInfrastructure.data;
+using TagFetcherInfrastructure.interfaces;
 using TagFetcherInfrastructure.responseModels;
 
 //TO DO : Exception handling and return http codes - maybe in model validaiton or in azure func
 namespace TagFetcherInfrastructure.services
 {
-    public class StackOverflowService
+    public class StackOverflowService : IStackOverflowService
     {
-      
+        private readonly AppDbContext _context;
+        public StackOverflowService(AppDbContext context)
+        {
+            _context = context;
+        }
+
         // Get tags from StackOverflow API 
         public async Task<List<Tag>> FetchTagsAsync()
         {
@@ -45,10 +51,10 @@ namespace TagFetcherInfrastructure.services
         }
 
         // Save tags to database
-        public async Task SaveTagsAsync(List<Tag> tags, AppDbContext dbContext)
+        public async Task SaveTagsAsync(List<Tag> tags)
         {
             var tagNames = tags.Select(t => t.Name);
-            var existingTags = await dbContext.Tags.Where(t => tagNames.Contains(t.Name)).ToDictionaryAsync(t => t.Name);
+            var existingTags = await _context.Tags.Where(t => tagNames.Contains(t.Name)).ToDictionaryAsync(t => t.Name);
 
             foreach (var tag in tags)
             {
@@ -58,25 +64,25 @@ namespace TagFetcherInfrastructure.services
                 }
                 else
                 {
-                    await dbContext.Tags.AddAsync(tag);
+                    await _context.Tags.AddAsync(tag);
                 }
             }
 
-            await dbContext.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
 
         // Calculate share for each tag
-        public async Task CalculateShareAsync(AppDbContext dbContext)
+        public async Task CalculateShareAsync()
         {
-            var totalTags = await dbContext.Tags.SumAsync(t => t.Count);
-            var tags = await dbContext.Tags.ToListAsync();
+            var totalTags = await _context.Tags.SumAsync(t => t.Count);
+            var tags = await _context.Tags.ToListAsync();
 
             foreach (var tag in tags)
             {
                 tag.Share = Math.Round((double)tag.Count / totalTags * 100, 2);
             }
 
-            await dbContext.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
 
     }

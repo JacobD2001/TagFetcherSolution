@@ -5,25 +5,26 @@ using Microsoft.EntityFrameworkCore;
 using TagFetcherInfrastructure.data;
 using TagFetcherInfrastructure.services;
 using TagFetcherInfrastructure.interfaces;
+using Microsoft.Extensions.Configuration;
 
 var host = new HostBuilder()
     .ConfigureFunctionsWebApplication()
-    .ConfigureServices(services =>
+    .ConfigureServices((context, services) =>
     {
         services.AddApplicationInsightsTelemetryWorkerService();
         services.ConfigureFunctionsApplicationInsights();
-        //TO RESOLVE BEFORE PUBLISH: Should connection string be moves to local.settings.json?
-        //TO RESOLVE BEFORE PUBLISH: Should it be some if development then use this string and applying migrations?
-        var dbHost = Environment.GetEnvironmentVariable("DB_HOST");
-        var dbName = Environment.GetEnvironmentVariable("DB_NAME");
-        var dbPassword = Environment.GetEnvironmentVariable("DB_SA_PASSWORD");
-        var connectionString = $"Server={dbHost};Database={dbName};User Id=sa;Password={dbPassword};TrustServerCertificate=True;";
-        services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
-        services.AddScoped<StackOverflowService>();
+
+        // use connection string from local.settings.json or environment variables
+        var connectionString = context.Configuration.GetConnectionString("DatabaseConnectionString") ?? context.Configuration["Values:DatabaseConnectionString"];
+        services.AddDbContext<AppDbContext>(options =>
+            options.UseSqlServer(connectionString));
+
+        services.AddScoped<IStackOverflowService, StackOverflowService>();
         services.AddScoped<ITagService, TagService>();
         services.AddHttpClient();
     })
     .Build();
+
 
 
 //automatically apply migrations

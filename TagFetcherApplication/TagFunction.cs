@@ -9,19 +9,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TagFetcherInfrastructure.data;
+using TagFetcherInfrastructure.interfaces;
 using TagFetcherInfrastructure.services;
 
 namespace TagFetcherApplication
 {
     internal class TagFunction
     {
-        private readonly StackOverflowService _stackOverflowService;
-        private readonly AppDbContext _dbContext;
+        private readonly IStackOverflowService _stackOverflowService;
 
-        public TagFunction(StackOverflowService stackOverflowService, AppDbContext dbContext)
+        public TagFunction(IStackOverflowService stackOverflowService)
         {
             _stackOverflowService = stackOverflowService;
-            _dbContext = dbContext;
         }
 
         [Function("FetchAndSaveTags")]
@@ -37,10 +36,10 @@ namespace TagFetcherApplication
 
                // log.LogInformation($"{tags.Count} tags fetched successfully.");
 
-                await _stackOverflowService.SaveTagsAsync(tags, _dbContext);
+                await _stackOverflowService.SaveTagsAsync(tags);
                // log.LogInformation($"{tags.Count} tags saved successfully.");
 
-                await _stackOverflowService.CalculateShareAsync(_dbContext);
+                await _stackOverflowService.CalculateShareAsync();
 
                 return new OkResult();
             }

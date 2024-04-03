@@ -10,7 +10,7 @@ namespace TagFetcherInfrastructure.queryParamsModels
     {
         public int PageNumber { get; set; } = 1;
         public int PageSize { get; set; } = 10;
-        public string SortBy { get; set; } = "Name";
-        public string SortOrder { get; set; } = "asc";
+        public string? SortBy { get; set; } = "Name";
+        public string? SortOrder { get; set; } = "asc";
     }
 }
