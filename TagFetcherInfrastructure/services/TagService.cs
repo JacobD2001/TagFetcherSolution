@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TagFetcherDomain.models;
 using TagFetcherInfrastructure.data;
 using TagFetcherInfrastructure.dtoModels;
 using TagFetcherInfrastructure.interfaces;
@@ -18,6 +19,11 @@ namespace TagFetcherInfrastructure.services
         public TagService(AppDbContext context)
         {
             _context = context;
+        }
+
+        public async Task<List<Tag>> GetAllTagsFromDbAsync()
+        {
+            return await _context.Tags.ToListAsync();
         }
 
         public async Task<List<TagDto>> GetTagsAsync(TagsQueryParameters queryParameters)

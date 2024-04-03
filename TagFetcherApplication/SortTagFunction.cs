@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
+using Microsoft.Identity.Client;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -16,18 +17,30 @@ namespace TagFetcherApplication
     public class SortTagFunction
     {
         private readonly ITagService _tagService;
-        public SortTagFunction(ITagService tagService)
+        private readonly IStackOverflowService _stackOverflowService;
+
+        public SortTagFunction(ITagService tagService, IStackOverflowService stackOverflowService)
         {
             _tagService = tagService;
+            _stackOverflowService = stackOverflowService;
         }
 
-        [Function("GetTags")]
+        [Function("GetAndSortTags")]
         public async Task<IActionResult> Run(
         [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
         ILogger log)
         {
             try
             {
+                //if there are no tags in database fetch from stackoverflow api
+                var exisitingTags = await _tagService.GetAllTagsFromDbAsync();
+                if(exisitingTags == null || !exisitingTags.Any())
+                {
+                    var fetchedTags = await _stackOverflowService.FetchTagsAsync();
+                    await _stackOverflowService.SaveTagsAsync(fetchedTags);
+                    await _stackOverflowService.CalculateShareAsync();
+                }
+
                 var queryParameters = new TagsQueryParameters
                 {
                     PageSize = string.IsNullOrEmpty(req.Query["pageSize"]) ? 10 : int.Parse(req.Query["pageSize"]),
