@@ -31,11 +31,14 @@ namespace TagFetcherApplication
         {
             try
             {
+                log.LogInformation("Fetching tags from StackOverflow API...");
                 var tags = await _stackOverflowService.FetchTagsAsync();
-                //log.LogInformation($"{tags.Count} tags fetched successfully.");
 
-                //save tags
+                log.LogInformation($"{tags.Count} tags fetched successfully.");
+
                 await _stackOverflowService.SaveTagsAsync(tags, _dbContext);
+                log.LogInformation($"{tags.Count} tags saved successfully.");
+
                 return new OkResult();
             }
             catch (Exception ex)

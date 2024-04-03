@@ -11,14 +11,13 @@ var host = new HostBuilder()
     {
         services.AddApplicationInsightsTelemetryWorkerService();
         services.ConfigureFunctionsApplicationInsights();
-        //TO DO: Move connection string to localsettings .json https://www.youtube.com/watch?v=WQFx2m5Ub9M
+        //TO RESOLVE BEFORE PUBLISH: Should connection string be moves to local.settings.json?
+        //TO RESOLVE BEFORE PUBLISH: Should it be some if development then use this string and applying migrations?
         var dbHost = Environment.GetEnvironmentVariable("DB_HOST");
         var dbName = Environment.GetEnvironmentVariable("DB_NAME");
         var dbPassword = Environment.GetEnvironmentVariable("DB_SA_PASSWORD");
         var connectionString = $"Server={dbHost};Database={dbName};User Id=sa;Password={dbPassword};TrustServerCertificate=True;";
         services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
-        // services.AddDbContext<AppDbContext>(options => options.UseSqlServer("Database"));
-
         services.AddScoped<StackOverflowService>();
         services.AddHttpClient();
     })
