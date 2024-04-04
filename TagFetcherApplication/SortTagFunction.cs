@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using TagFetcherInfrastructure.dtoModels;
 using TagFetcherInfrastructure.interfaces;
 using TagFetcherInfrastructure.queryParamsModels;
+using TagFetcherInfrastructure.validators;
 
 namespace TagFetcherApplication
 {
@@ -74,6 +75,11 @@ namespace TagFetcherApplication
                 var tags = await _tagService.GetTagsAsync(queryParameters);
                 return new OkObjectResult(tags);
 
+            }
+            catch (StackOverflowApiException ex)
+            {
+                // log.LogError($"API Error: {ex.Message}");
+                return new ObjectResult(ex.Message) { StatusCode = (int)ex.StatusCode };
             }
             catch (Exception ex)
             {
