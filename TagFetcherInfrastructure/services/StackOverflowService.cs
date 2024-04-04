@@ -13,6 +13,7 @@ using TagFetcherDomain.models;
 using TagFetcherInfrastructure.data;
 using TagFetcherInfrastructure.interfaces;
 using TagFetcherInfrastructure.responseModels;
+using TagFetcherInfrastructure.validators;
 
 //TO DO : Exception handling and return http codes - maybe in model validaiton or in azure func
 namespace TagFetcherInfrastructure.services
@@ -43,7 +44,27 @@ namespace TagFetcherInfrastructure.services
                 }
                 else
                 {
-                    throw new Exception("Failed to fetch tags from StackOverflow API");
+                    switch (response.StatusCode)
+                    {
+                        case System.Net.HttpStatusCode.TooManyRequests:
+                            throw new StackOverflowApiException("Rate limit exceeded. Please try again later.", response.StatusCode, "RateLimitExceeded");
+                        case System.Net.HttpStatusCode.NotFound:
+                            throw new StackOverflowApiException("Resource not found.", response.StatusCode, "NotFound");
+                        case System.Net.HttpStatusCode.BadRequest:
+                            throw new StackOverflowApiException("Bad request.", response.StatusCode, "BadParameter");
+                        case System.Net.HttpStatusCode.ProxyAuthenticationRequired:
+                            throw new StackOverflowApiException("Write failed.", response.StatusCode, "WriteFailed");
+                        case System.Net.HttpStatusCode.Conflict:
+                            throw new StackOverflowApiException("Duplicate request.", response.StatusCode, "DuplicateRequest");
+                        case System.Net.HttpStatusCode.InternalServerError:
+                            throw new StackOverflowApiException("Internal error.", response.StatusCode, "InternalError");
+                        case System.Net.HttpStatusCode.BadGateway:
+                            throw new StackOverflowApiException("Throttle violation.", response.StatusCode, "ThrottleViolation");
+                        case System.Net.HttpStatusCode.ServiceUnavailable:
+                            throw new StackOverflowApiException("Temporarily unavailable.", response.StatusCode, "TemporarilyUnavailable");
+                        default:
+                            throw new StackOverflowApiException("Unexpected error occurred.", response.StatusCode, "UnexpectedError");
+                    }
                 }
             }
 

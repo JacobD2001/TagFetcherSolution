@@ -15,6 +15,7 @@ using TagFetcherInfrastructure.data;
 using TagFetcherInfrastructure.interfaces;
 using TagFetcherInfrastructure.services;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
+using TagFetcherInfrastructure.validators;
 
 
 namespace TagFetcherApplication
@@ -46,22 +47,27 @@ namespace TagFetcherApplication
                     await _tagService.DeleteAllTagsAsync();
                 }
                 // TO DO : Loggs cause error for some reason 
-                // log.LogInformation("Fetching tags from StackOverflow API...");
+                //log.LogInformation("Fetching tags from StackOverflow API...");
                 var tags = await _stackOverflowService.FetchTagsAsync();
 
-               // log.LogInformation($"{tags.Count} tags fetched successfully.");
+                //log.LogInformation($"{tags.Count} tags fetched successfully.");
 
                 await _stackOverflowService.SaveTagsAsync(tags);
-               // log.LogInformation($"{tags.Count} tags saved successfully.");
+                //log.LogInformation($"{tags.Count} tags saved successfully.");
 
                 await _stackOverflowService.CalculateShareAsync();
 
                 return new OkResult();
             }
+            catch (StackOverflowApiException ex)
+            {
+               // log.LogError($"API Error: {ex.Message}");
+                return new ObjectResult(ex.Message) { StatusCode = (int)ex.StatusCode };
+            }
             catch (Exception ex)
             {
-               // log.LogError($"Unexpected error occurred when fetching tags {ex.Message}");
-                throw new Exception("Unexpected error occurred when fetching tags", ex);
+               // log.LogError($"Unexpected error: {ex.Message}");
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
 
