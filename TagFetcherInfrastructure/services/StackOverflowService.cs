@@ -1,21 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage.Json;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using RestSharp;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
 using TagFetcherDomain.models;
 using TagFetcherInfrastructure.data;
 using TagFetcherInfrastructure.interfaces;
 using TagFetcherInfrastructure.responseModels;
 using TagFetcherInfrastructure.validators;
 
-//TO DO : Exception handling and return http codes - maybe in model validaiton or in azure func
 namespace TagFetcherInfrastructure.services
 {
     public class StackOverflowService : IStackOverflowService
